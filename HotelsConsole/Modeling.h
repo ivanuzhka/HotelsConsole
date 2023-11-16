@@ -24,11 +24,11 @@ public:
 	{
 		_types = 
 		{
-			new Lux(sizes[0], discounts[0])
-			, new SemiLux(sizes[1], discounts[1])
-			, new Single(sizes[2], discounts[2])
-			, new Double(sizes[3], discounts[3])
-			, new DoublePro(sizes[4], discounts[4])
+			new Lux(prices[0], discounts[0])
+			, new SemiLux(prices[1], discounts[1])
+			, new Single(prices[2], discounts[2])
+			, new Double(prices[3], discounts[3])
+			, new DoublePro(prices[4], discounts[4])
 		};
 
 		_num_to_type =

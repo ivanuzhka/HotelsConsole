@@ -150,6 +150,41 @@ Request* Modeling::process_request(Request* request)
 	return free_room_type == nullptr ? nullptr : request;
 }
 
+std::vector<Request*> Modeling::generate_requests()
+{
+	std::vector<Request*> reqs;
+	int now_day = 1;
+	int now_time = rnd() % _max_interval;
+
+	while (now_time + (now_day - 1) * 24 < (_period - 1) * 24)
+	{
+		RoomType* room_type = _types[rnd() % 5];
+		bool bid_type = rnd() % 2;
+		int departure_day, arrival_day;
+		Request* q;
+
+		if (bid_type || now_day == _period - 1)
+		{
+			arrival_day = now_day;
+			departure_day = rnd() % (_period - now_day) + now_day + 1;
+			q = new Request("arrive", now_day, now_time, room_type, arrival_day, departure_day);
+		}
+		else
+		{
+			arrival_day = rnd() % (_period - now_day) + now_day + 1;
+			if (arrival_day == _period) arrival_day--;
+			departure_day = rnd() % (_period - arrival_day) + arrival_day + 1;
+			q = new Request("book", now_day, now_time, room_type, arrival_day, departure_day);
+		}
+
+		reqs.push_back(q);
+		int plus = rnd() % (_max_interval - _min_interval + 1) + _min_interval;
+		now_day = now_day + (now_time + plus) / 24;
+		now_time = (now_time + plus) % 24;
+	}
+	return reqs;
+}
+
 void Modeling::process_daily_check_in()
 {
 	for (auto& request : _system.daily_check_in())

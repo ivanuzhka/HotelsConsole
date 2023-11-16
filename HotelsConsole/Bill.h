@@ -6,15 +6,15 @@
 class Bill
 {
 public:
-	Bill(RoomType* room_type, Room room)
-		: _room_type(room_type)
-		, _room_number(room.get_room_number())
-		, _arrival_day(room.get_arrival_day())
-		, _departure_day(room.get_departure_day())
-		, _price(room.get_price())
-		, _discount(room.get_discount())
-		, _paid(room.get_paid())
-		, _book_id(room.get_book_id()) {}
+	//Bill(RoomType* room_type, Room room)
+	//	: _room_type(room_type)
+	//	, _room_number(room.get_room_number())
+	//	, _arrival_day(room.get_arrival_day())
+	//	, _departure_day(room.get_departure_day())
+	//	, _price(room.get_price())
+	//	, _discount(room.get_discount())
+	//	, _paid(room.get_paid())
+	//	, _book_id(room.get_book_id()) {}
 
 private:
 	RoomType* _room_type;

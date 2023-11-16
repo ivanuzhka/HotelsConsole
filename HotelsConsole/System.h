@@ -15,7 +15,7 @@ class System
 {
 public:
 	System() 
-		: _current_day(0)
+		: _current_day(1)
 		, _current_time(0)
 		, _book_counter(0)
 		, _arrive_counter(0)
@@ -24,9 +24,11 @@ public:
 
 	System(std::map<RoomType*, int> sizes) : System()
 	{
+		// creating _booking & _occupancy
 		int counter = 1;
 		for (auto& [room_type, size] : sizes)
 		{
+			_booking[room_type] = TypeBooking();
 			for (int i = 0; i < size; ++i)
 			{
 				_occupancy[room_type].push_back(Room(counter++));

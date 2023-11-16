@@ -9,6 +9,8 @@ Request* System::check_in(int book_id)
 	{
 		if (room.is_busy()) continue;
 
+		request->set_room_number(room.get_room_number());
+
 		room.check_into(book_id
 			, request->get_room_type()
 			, request->get_departure_day()
@@ -32,13 +34,14 @@ std::pair<RoomType*, int> System::get_free_type(Request* request)
 		int counter = 0;
 		for (auto& room : _occupancy[room_type])
 		{
+			if (!room.is_busy()) continue;
 			type_booking.insert(room.get_book_id(), room.get_arrival_day(), room.get_departure_day());
 			++counter;
 		}
 
 		if (type_booking.is_empty_rooms(request->get_arrival_day(), request->get_departure_day(), _occupancy.size()))
 		{
-			if (*room_type < *request->get_room_type())
+			if (*room_type < *request->get_room_type() && (lower_type == nullptr || *lower_type < *room_type))
 			{
 				lower_type = room_type;
 			}
@@ -46,7 +49,7 @@ std::pair<RoomType*, int> System::get_free_type(Request* request)
 			{
 				equal_type = room_type;
 			}
-			else
+			else if (upper_type == nullptr || *upper_type > *room_type)
 			{
 				upper_type = room_type;
 				break;
@@ -87,7 +90,7 @@ Request* System::confirm_request(Request* request, RoomType* room_type, int disc
 		+ std::to_string(_current_time)
 		+ std::to_string(_book_counter + _arrive_counter + _refuse_counter + 1));
 
-	int final_price = (double)room_type->get_price() * (1. + (double)discount / 100.);
+	int final_price = (double)room_type->get_price() * (1. - (double)discount / 100.);
 
 	request->set_id(book_id);
 	request->set_room_type(room_type);

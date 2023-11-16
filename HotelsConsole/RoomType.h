@@ -15,9 +15,10 @@ public:
 	std::string get_title() const { return _title; }
 	int get_discount() const { return _discount; }
 
-	bool operator<(const RoomType& other) const { return this->_price < other._price; }
 	bool operator==(const RoomType& other) const { return this->_title == other._title; }
 	bool operator!=(const RoomType& other) const { return !(*this == other); }
+	bool operator<(const RoomType& other) const { return this->_price < other._price; }
+	bool operator>(const RoomType& other) const { return *this != other && !(*this < other); }
 
 private:
 	int _price;
