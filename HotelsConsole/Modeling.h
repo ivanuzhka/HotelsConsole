@@ -50,6 +50,11 @@ public:
 		_system = System(type_sizes);
 
 		_all_requests = generate_requests();
+
+		for (auto& room_type : _types)
+		{
+			_daily_occupancy[room_type] = { 0 };
+		}
 	}
 
 	int get_day() const { return _system.get_current_day(); }

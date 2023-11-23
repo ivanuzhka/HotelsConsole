@@ -6,12 +6,14 @@ using std::cout;
 
 int main()
 {
-	Modeling model(2, 5, 10, { 2, 2, 2, 2, 2 }, { 5, 4, 3, 2, 1 }, { 50, 50, 50, 50, 50});
+	for (int i = 0; i < 1000; ++i) {
 
-	model.do_step(10);
+		Modeling model(2, 7, 8, { 5, 5, 5, 5, 5 }, { 5, 4, 1, 2, 3 }, { 0, 0, 0, 0, 0 });
 
-	for (int i = 0; i < 2 * 24; i += 2)
-	{
-		model.do_step(2);
+		model.do_step(24);
 	}
+
+	cout << "test\n";
+
+
 }

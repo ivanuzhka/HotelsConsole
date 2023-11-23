@@ -1,4 +1,5 @@
 #include "Modeling.h"
+#include <iostream>
 
 std::mt19937 rnd(time(0));
 
@@ -7,7 +8,7 @@ std::vector<Request*> Modeling::do_step(int time_step)
 	std::vector<Request*> processed_requests;
 
 	int start = _system.get_current_time();
-	int end = start + time_step - 1;
+	int end = start + time_step;
 
 	for (auto& request : _all_requests)
 	{
@@ -23,16 +24,31 @@ std::vector<Request*> Modeling::do_step(int time_step)
 			process_daily_check_in();
 		}
 
-		// daily deaprt
+		// daily depart
 		if (request->get_creation_time() > 14 && _system.get_current_time() <= 14)
 		{
 			process_daily_depart();
 		}
 
-		_system.update_time(request->get_creation_time() - _system.get_current_time());
+		std::cout << _system.get_current_time() << "\n";
+		_system.set_time(request->get_creation_time());
 		process_request(request);
 		processed_requests.push_back(request);
 	}
+
+	// daily check-in
+	if (end > 12 && _system.get_current_time() <= 12)
+	{
+		process_daily_check_in();
+	}
+
+	// daily depart
+	if (end > 14 && _system.get_current_time() <= 14)
+	{
+		process_daily_depart();
+	}
+
+	_system.set_time(end);
 
 	return processed_requests;
 }
@@ -103,7 +119,6 @@ std::array<std::pair<int, int>, 5> Modeling::get_day_staticstic()
 	{
 		result[_num_to_type[room_type]] = statistic;
 	}
-
 	_daily_statistic.clear();
 
 	return result;
@@ -139,6 +154,8 @@ Request* Modeling::process_request(Request* request)
 {
 	auto [free_room_type, discount] = _system.get_free_type(request);
 
+	if (free_room_type == nullptr) return nullptr;
+
 	if (*free_room_type != *request->get_room_type() && rnd() % 2 == 0)
 	{
 		free_room_type = nullptr;
@@ -146,6 +163,11 @@ Request* Modeling::process_request(Request* request)
 	}
 
 	_system.confirm_request(request, free_room_type, discount);
+
+	if (free_room_type != nullptr && request->get_request_type() == "arrive")
+	{
+		++_daily_statistic[request->get_room_type()].first;
+	}
 
 	return free_room_type == nullptr ? nullptr : request;
 }
@@ -187,6 +209,7 @@ std::vector<Request*> Modeling::generate_requests()
 
 void Modeling::process_daily_check_in()
 {
+
 	for (auto& request : _system.daily_check_in())
 	{
 		++_daily_statistic[request->get_room_type()].first;
@@ -196,6 +219,7 @@ void Modeling::process_daily_check_in()
 
 void Modeling::process_daily_depart()
 {
+
 	for (auto& request : _system.daily_depart())
 	{
 		++_daily_statistic[request->get_room_type()].second;

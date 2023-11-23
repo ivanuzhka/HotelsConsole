@@ -13,8 +13,8 @@ Request* System::check_in(int book_id)
 
 		room.check_into(book_id
 			, request->get_room_type()
-			, request->get_departure_day()
 			, request->get_arrival_day()
+			, request->get_departure_day()
 			, request->get_final_price());
 
 		return request;
@@ -49,11 +49,15 @@ std::pair<RoomType*, int> System::get_free_type(Request* request)
 			{
 				equal_type = room_type;
 			}
-			else if (upper_type == nullptr || *upper_type > *room_type)
+			else if (*room_type > *request->get_room_type() && (upper_type == nullptr || *upper_type > *room_type))
 			{
 				upper_type = room_type;
-				break;
 			}
+		}
+
+		while (counter--)
+		{
+			type_booking.pull();
 		}
 	}
 
