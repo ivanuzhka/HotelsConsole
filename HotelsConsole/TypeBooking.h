@@ -25,6 +25,9 @@ public:
 
 	// erase first event from _days and returns its book id;
 	int pull();
+	
+	// erase events with id equal to book_id
+	void erase(int book_id);
 
 	bool check_front(int current_day) const
 	{

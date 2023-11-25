@@ -30,7 +30,7 @@ std::vector<Request*> Modeling::do_step(int time_step)
 			process_daily_depart();
 		}
 
-		std::cout << _system.get_current_time() << "\n";
+
 		_system.set_time(request->get_creation_time());
 		if (process_request(request) == nullptr) continue;
 		processed_requests.push_back(request);

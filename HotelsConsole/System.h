@@ -77,8 +77,6 @@ private:
 	int _current_day;
 	int _current_time;
 
-	int _counter;
-
 	int _book_counter;
 	int _arrive_counter;
 	int _refuse_counter;

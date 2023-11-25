@@ -9,7 +9,7 @@ bool TypeBooking::is_empty_rooms(int arrival_day, int departure_day, int capacit
 		counter += event._type;
 
 		if (event._day < arrival_day || departure_day < event._day) continue;
-		if (capacity >= counter)
+		if (capacity < counter)
 			return false;
 	}
 	return true && capacity != 0;
@@ -38,6 +38,21 @@ int TypeBooking::pull()
 	}
 
 	return book_id;
+}
+
+void TypeBooking::erase(int book_id)
+{
+	for (int _ = 0; _ < 2; ++_)
+	{
+		for (auto& el : _days)
+		{
+			if (el._book_id == book_id)
+			{
+				_days.erase(el);
+				break;
+			}
+		}
+	}
 }
 
 std::tuple<int, int> TypeBooking::get_book(int book_id) const

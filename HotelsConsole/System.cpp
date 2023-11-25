@@ -39,6 +39,8 @@ std::pair<RoomType*, int> System::get_free_type(Request* request)
 			++counter;
 		}
 
+		type_booking.insert(-1, request->get_arrival_day(), request->get_departure_day());
+
 		if (type_booking.is_empty_rooms(request->get_arrival_day(), request->get_departure_day(), _occupancy[room_type].size()))
 		{
 			if (*room_type < *request->get_room_type() && (lower_type == nullptr || *lower_type < *room_type))
@@ -54,6 +56,8 @@ std::pair<RoomType*, int> System::get_free_type(Request* request)
 				upper_type = room_type;
 			}
 		}
+
+		type_booking.erase(-1);
 
 		while (counter--)
 		{
