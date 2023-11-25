@@ -32,7 +32,7 @@ std::vector<Request*> Modeling::do_step(int time_step)
 
 		std::cout << _system.get_current_time() << "\n";
 		_system.set_time(request->get_creation_time());
-		process_request(request);
+		if (process_request(request) == nullptr) continue;
 		processed_requests.push_back(request);
 	}
 
@@ -59,13 +59,14 @@ Request* Modeling::to_next_request()
 	{
 		auto request = _all_requests[_current_request_number];
 
-		if (request->get_creation_day() != _system.get_current_time())
+		if (request->get_creation_day() != _system.get_current_day())
 		{
-			_system.set_time(request->get_creation_time());
+			// layered to next day
+			_system.set_time(24);
 			return nullptr;
 		}
 
-		//daily check-in
+		// daily check-in
 		if (request->get_creation_time() > 12 && _system.get_current_time() <= 12)
 		{
 			process_daily_check_in();
@@ -82,10 +83,7 @@ Request* Modeling::to_next_request()
 
 		if (processed_request != nullptr)
 		{
-			if (++_current_request_number == _all_requests.size())
-			{
-				_system.set_time(24);
-			}
+			++_current_request_number;
 			return request;
 		}
 	}
@@ -167,10 +165,12 @@ Request* Modeling::process_request(Request* request)
 	if (free_room_type != nullptr && request->get_request_type() == "arrive")
 	{
 		++_daily_statistic[request->get_room_type()].first;
+		++_daily_occupancy[request->get_room_type()].back();
 	}
 
 	return free_room_type == nullptr ? nullptr : request;
 }
+
 
 std::vector<Request*> Modeling::generate_requests()
 {
@@ -206,6 +206,7 @@ std::vector<Request*> Modeling::generate_requests()
 	}
 	return reqs;
 }
+
 
 void Modeling::process_daily_check_in()
 {

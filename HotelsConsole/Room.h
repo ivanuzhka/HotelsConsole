@@ -27,7 +27,14 @@ public:
 	bool is_busy() const { return _arrival_day != -1; }
 	bool is_departure_day(int current_day) const { return _departure_day == current_day; }
 
-	void clear() { Room(number); }
+	void clear()
+	{
+		_room_type = nullptr;
+		_arrival_day = -1;
+		_departure_day = -1;
+		_now_price = -1;
+		_book_id = -1;
+	}
 
 	void check_into(int book_id, RoomType* room_type, int arrival_day, int departure_day, int now_price)
 	{
@@ -46,4 +53,3 @@ private:
 	int _now_price;
 	int _book_id;
 };
-

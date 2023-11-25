@@ -66,7 +66,7 @@ public:
 
 
 private:
-	// returns ptr to request that have checked-in ans nullptr otherwise
+	// returns ptr to request that have checked-in and nullptr otherwise
 	Request* check_in(int book_id);
 
 private:

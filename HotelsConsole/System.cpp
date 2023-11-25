@@ -39,7 +39,7 @@ std::pair<RoomType*, int> System::get_free_type(Request* request)
 			++counter;
 		}
 
-		if (type_booking.is_empty_rooms(request->get_arrival_day(), request->get_departure_day(), _occupancy.size()))
+		if (type_booking.is_empty_rooms(request->get_arrival_day(), request->get_departure_day(), _occupancy[room_type].size()))
 		{
 			if (*room_type < *request->get_room_type() && (lower_type == nullptr || *lower_type < *room_type))
 			{
@@ -96,8 +96,13 @@ Request* System::confirm_request(Request* request, RoomType* room_type, int disc
 
 	int final_price = (double)room_type->get_price() * (1. - (double)discount / 100.);
 
-	request->set_id(book_id);
+	if (discount == 100)
+	{
+		final_price = request->get_room_type()->get_price();
+	}
+
 	request->set_room_type(room_type);
+	request->set_id(book_id);
 	request->set_final_price(final_price);
 
 	_base[book_id] = request;
@@ -145,8 +150,8 @@ std::vector<Request*> System::daily_depart()
 
 			_revenue += room.get_now_price();
 
-			room.clear();
 			processed_requests.push_back(_base[room.get_book_id()]);
+			room.clear();
 		}
 	}
 

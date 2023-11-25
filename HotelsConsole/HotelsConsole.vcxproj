@@ -130,9 +130,6 @@
   <ItemGroup>
     <ClCompile Include="HotelsConsole.cpp" />
     <ClCompile Include="Modeling.cpp" />
-    <ClCompile Include="Request.cpp" />
-    <ClCompile Include="Room.cpp" />
-    <ClCompile Include="RoomType.cpp" />
     <ClCompile Include="System.cpp" />
     <ClCompile Include="TypeBooking.cpp" />
   </ItemGroup>

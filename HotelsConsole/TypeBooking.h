@@ -28,9 +28,7 @@ public:
 
 	bool check_front(int current_day) const
 	{
-		if (_days.empty())
-			return false;
-
+		if (_days.empty()) return false;
 		return _days.begin()->_day == current_day;
 	}
 

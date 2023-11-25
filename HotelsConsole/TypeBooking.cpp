@@ -6,13 +6,13 @@ bool TypeBooking::is_empty_rooms(int arrival_day, int departure_day, int capacit
 
 	for (auto& event : _days)
 	{
-		if (event._day < arrival_day || departure_day < event._day) continue;
-
 		counter += event._type;
+
+		if (event._day < arrival_day || departure_day < event._day) continue;
 		if (capacity >= counter)
 			return false;
 	}
-	return true;
+	return true && capacity != 0;
 }
 
 void TypeBooking::insert(int id, int arrival_day, int departure_day)
