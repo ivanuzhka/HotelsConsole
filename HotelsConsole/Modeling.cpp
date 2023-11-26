@@ -109,7 +109,7 @@ std::vector<Request*> Modeling::get_actions()
 	return tmp;
 }
 
-std::array<std::pair<int, int>, 5> Modeling::get_day_staticstic()
+std::array<std::pair<int, int>, 5> Modeling::get_day_statistic()
 {
 	std::array<std::pair<int, int>, 5> result;
 

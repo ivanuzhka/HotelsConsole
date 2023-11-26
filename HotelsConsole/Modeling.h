@@ -49,7 +49,12 @@ public:
 
 		_system = System(type_sizes);
 
-		_all_requests = generate_requests();
+		//_all_requests = generate_requests();
+
+		_all_requests = {
+			new Request("book", 1, 2, _types[2], 6, 10),
+			new Request("book", 1, 3, _types[2], 6, 9)
+		};
 
 		for (auto& room_type : _types)
 		{
@@ -75,7 +80,7 @@ public:
 	std::vector<Request*> get_actions();
 
 	// returns _daily_statistics and clears it
-	std::array<std::pair<int, int>, 5> get_day_staticstic();
+	std::array<std::pair<int, int>, 5> get_day_statistic();
 
 	// returns rooms
 	std::array<std::vector<Room>, 5> get_information_rooms();

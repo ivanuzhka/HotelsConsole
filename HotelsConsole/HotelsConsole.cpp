@@ -26,7 +26,8 @@ int main()
 			cout << endl;
 		}
 
-		cout << "test # " << i + 1 << "\n";
+		model.get_actions();
+		model.get_day_statistic();
 
 	}
 

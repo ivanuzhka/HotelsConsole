@@ -9,6 +9,8 @@ struct Event
 
 	bool operator<(const Event& other) const
 	{
+		if (this->_day == other._day && this->_type == other._type)
+			return this->_book_id < other._book_id;
 		if (this->_day == other._day)
 			return this->_type > other._type;
 		return this->_day < other._day;
